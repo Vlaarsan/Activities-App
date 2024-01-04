@@ -17,16 +17,15 @@ export default function App() {
           tabBarStyle: { backgroundColor: "black" },
           tabBarActiveTintColor: "#fff",
           tabBarInactiveTintColor: "gray",
-          tabBarIcon: ({ color, size }) => {
+          tabBarIcon: ({ color }) => {
             let iconName;
-
             if (route.name === "Activités") {
               iconName = "book";
             } else if (route.name === "Options") {
               iconName = "settings";
             }
 
-            return <Ionicons name={iconName} size={size} color={color} />;
+            return <Ionicons name={iconName} size={27} color={color} />;
           },
         })}
       >

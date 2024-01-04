@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import { StyleSheet, Text, TouchableOpacity } from "react-native";
 
-const Activity = ({ name, description, category, onDelete, onPress }) => {
+const Activity = ({ name, description, category, onDelete }) => {
   const [isPressed, setIsPressed] = useState(false);
 
   const handlePress = () => {
@@ -9,16 +9,12 @@ const Activity = ({ name, description, category, onDelete, onPress }) => {
   };
   return (
     <TouchableOpacity
-    style={[
-      styles.container,
-      isPressed ? styles.containerDone : null,
-    ]}
-    onLongPress={onDelete}
-    onPress={handlePress}
-  >
-    <Text style={styles.text}>{name}</Text>
-  </TouchableOpacity>
-  
+      style={[styles.container, isPressed ? styles.containerPressed : null]}
+      onLongPress={onDelete}
+      onPress={handlePress}
+    >
+      <Text style={styles.text}>{name}</Text>
+    </TouchableOpacity>
   );
 };
 
@@ -33,7 +29,7 @@ const styles = StyleSheet.create({
     margin: 15, // Marge autour du bloc
     alignContent: "center",
     borderWidth: 2,
-    borderColor: "skyblue"
+    borderColor: "skyblue",
   },
   text: {
     fontSize: 17, // Taille de la police du texte
@@ -41,11 +37,11 @@ const styles = StyleSheet.create({
     color: "white",
     textAlign: "center",
   },
-  containerDone: {
+  containerPressed: {
     flex: 1,
     backgroundColor: "skyblue", // Couleur de fond du bloc
     borderWidth: 2,
-    borderColor: "black"
+    borderColor: "black",
   },
 });
 
