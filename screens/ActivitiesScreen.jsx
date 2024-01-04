@@ -8,7 +8,6 @@ import {
   Modal,
 } from "react-native";
 import AsyncStorage from "@react-native-async-storage/async-storage";
-
 import Activity from "../components/Activity";
 import NewActivityForm from "../forms/NewActivityForm";
 import { createActivity } from "../Fonctions/HandleActivities";
@@ -80,6 +79,7 @@ const ActivitiesScreen = () => {
   ///////////////////////////////////////////////////////////////////////////////////////////////
 
   return (
+    <View style={styles.mainContainer}>
     <ScrollView
       contentContainerStyle={styles.container}
       style={{ backgroundColor: "lightgreen" }}
@@ -93,11 +93,7 @@ const ActivitiesScreen = () => {
           />
         </View>
       ))}
-      <TouchableOpacity onPress={() => setModalVisible(true)}>
-        <View style={styles.addButton}>
-          <Text>Ajouter une activité</Text>
-        </View>
-      </TouchableOpacity>
+
 
       {/* Modal pour le formulaire */}
       <Modal
@@ -112,12 +108,25 @@ const ActivitiesScreen = () => {
         />
       </Modal>
     </ScrollView>
+      <TouchableOpacity
+        onPress={() => setModalVisible(true)}
+        style={styles.addButtonContainer}
+      >
+        <View style={styles.addButton}>
+          <Text>+</Text>
+        </View>
+      </TouchableOpacity>
+    </View>
   );
 };
 
 export default ActivitiesScreen;
 
 const styles = StyleSheet.create({
+  mainContainer: {
+    flex: 1,
+    backgroundColor: "lightgreen",
+  },
   container: {
     flexDirection: "row",
     flexWrap: "wrap",
@@ -129,11 +138,15 @@ const styles = StyleSheet.create({
     width: "48%",
     marginBottom: 10,
   },
+  addButtonContainer: {
+    position: "absolute",
+    bottom: 20,  // Ajustez cette valeur selon vos besoins
+    right: 20,   // Ajustez cette valeur selon vos besoins
+    zIndex: 1,   // Assurez-vous que le bouton est au-dessus de la ScrollView
+  },  
   addButton: {
-    backgroundColor: "white",
-    padding: 10,
-    margin: 10,
-    alignItems: "center",
-    justifyContent: "center",
+    backgroundColor: "skyblue",
+    padding: 15,
+    borderRadius: 15,
   },
 });
