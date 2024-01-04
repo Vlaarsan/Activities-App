@@ -24,7 +24,6 @@ const ActivitiesScreen = () => {
   //                                           @USE EFFECT
   ///////////////////////////////////////////////////////////////////////////////////////////////
 
-  // Charger les activités depuis le stockage lors du montage initial
   useEffect(() => {
     const loadActivities = async () => {
       try {
@@ -40,7 +39,6 @@ const ActivitiesScreen = () => {
     loadActivities();
   }, []);
 
-  // Utiliser Async Storage pour sauvegarder le tableau d'activités à chaque changement
   useEffect(() => {
     const saveActivities = async () => {
       try {
@@ -58,13 +56,8 @@ const ActivitiesScreen = () => {
   ///////////////////////////////////////////////////////////////////////////////////////////////
 
   const handleCreateActivity = (formData) => {
-    // Utilisez les données du formulaire pour créer une nouvelle activité
     const newActivity = createActivity(formData.name, formData.description);
-
-    // Mettez à jour la liste des activités
     setActivities((prevActivities) => [...prevActivities, newActivity]);
-
-    // Masquer la modal après la création de l'activité
     setModalVisible(false);
   };
 
@@ -80,34 +73,33 @@ const ActivitiesScreen = () => {
 
   return (
     <View style={styles.mainContainer}>
-    <ScrollView
-      contentContainerStyle={styles.container}
-      style={{ backgroundColor: "lightgreen" }}
-    >
-      {activities.map((activity, index) => (
-        <View key={index} style={styles.activityContainer}>
-          <Activity
-            name={activity.name}
-            description={activity.description}
-            onDelete={() => handleDeleteActivity(activity.name)}
-          />
-        </View>
-      ))}
-
-
-      {/* Modal pour le formulaire */}
-      <Modal
-        animationType="slide"
-        transparent={true}
-        visible={isModalVisible}
-        onRequestClose={() => setModalVisible(false)}
+      <ScrollView
+        contentContainerStyle={styles.container}
+        style={{ backgroundColor: "lightgreen" }}
       >
-        <NewActivityForm
-          onSave={handleCreateActivity}
-          onClose={() => setModalVisible(false)}
-        />
-      </Modal>
-    </ScrollView>
+        {activities.map((activity, index) => (
+          <View key={index} style={styles.activityContainer}>
+            <Activity
+              name={activity.name}
+              description={activity.description}
+              onDelete={() => handleDeleteActivity(activity.name)}
+            />
+          </View>
+        ))}
+
+        {/* Modal pour le formulaire */}
+        <Modal
+          animationType="slide"
+          transparent={true}
+          visible={isModalVisible}
+          onRequestClose={() => setModalVisible(false)}
+        >
+          <NewActivityForm
+            onSave={handleCreateActivity}
+            onClose={() => setModalVisible(false)}
+          />
+        </Modal>
+      </ScrollView>
       <TouchableOpacity
         onPress={() => setModalVisible(true)}
         style={styles.addButtonContainer}
@@ -140,10 +132,10 @@ const styles = StyleSheet.create({
   },
   addButtonContainer: {
     position: "absolute",
-    bottom: 20,  // Ajustez cette valeur selon vos besoins
-    right: 20,   // Ajustez cette valeur selon vos besoins
-    zIndex: 1,   // Assurez-vous que le bouton est au-dessus de la ScrollView
-  },  
+    bottom: 20,
+    right: 20,
+    zIndex: 1,
+  },
   addButton: {
     backgroundColor: "skyblue",
     padding: 15,

@@ -21,25 +21,24 @@ const Activity = ({ name, description, category, onDelete }) => {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    maxWidth: 200, // Ajustez la largeur selon vos besoins
-    maxHeight: 200, // Ajustez la hauteur selon vos besoins
-    backgroundColor: "black", // Couleur de fond du bloc
-    padding: 15, // Espace intérieur du bloc
-    borderRadius: 15, // Bordure arrondie du bloc
-    margin: 15, // Marge autour du bloc
+    maxWidth: 200,
+    maxHeight: 200,
+    backgroundColor: "black", 
+    padding: 15,
+    margin: 15,
     alignContent: "center",
     borderWidth: 2,
     borderColor: "skyblue",
   },
   text: {
-    fontSize: 17, // Taille de la police du texte
-    marginBottom: 5, // Marge en bas de chaque texte
+    fontSize: 17, 
+    marginBottom: 5,
     color: "white",
     textAlign: "center",
   },
   containerPressed: {
     flex: 1,
-    backgroundColor: "skyblue", // Couleur de fond du bloc
+    backgroundColor: "skyblue",
     borderWidth: 2,
     borderColor: "black",
   },

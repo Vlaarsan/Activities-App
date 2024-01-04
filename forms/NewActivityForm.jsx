@@ -11,21 +11,17 @@ export default function NewActivityForm({ onSave, onClose }) {
   const [activityName, setActivityName] = useState("");
 
   const handleSave = () => {
-    // Vérifier si le nom de l'activité est saisi avant de sauvegarder
     if (activityName.trim() === "") {
       alert("Veuillez saisir le nom de l'activité.");
       return;
     }
 
-    // Appeler la fonction onSave avec les données du formulaire
     onSave({
       name: activityName,
     });
 
-    // Réinitialiser les champs du formulaire
     setActivityName("");
 
-    // Fermer la modal
     onClose();
   };
 
