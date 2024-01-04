@@ -35,7 +35,11 @@ export default function App() {
           component={ActivitiesScreen}
           options={{ headerShown: false }}
         />
-        <Tab.Screen name="Options" component={OptionScreen} />
+        <Tab.Screen
+          name="Options"
+          component={OptionScreen}
+          options={{ headerShown: false }}
+        />
       </Tab.Navigator>
       <StatusBar style="auto" />
     </NavigationContainer>

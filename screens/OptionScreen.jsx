@@ -3,7 +3,7 @@ import React from 'react'
 
 const OptionScreen = () => {
   return (
-    <View>
+    <View style={styles.container}>
       <Text>OptionScreen</Text>
     </View>
   )
@@ -12,5 +12,10 @@ const OptionScreen = () => {
 export default OptionScreen
 
 const styles = StyleSheet.create({
-    
+    container: {
+        flex:1,
+        alignItems: "center",
+        justifyContent: "center",
+        backgroundColor: "grey",
+      },
 })
