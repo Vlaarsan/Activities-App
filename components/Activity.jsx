@@ -1,18 +1,47 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { StyleSheet, Text, TouchableOpacity } from "react-native";
+import AsyncStorage from "@react-native-async-storage/async-storage";
 import { format } from "date-fns";
 import { fr } from "date-fns/locale";
-
 
 const Activity = ({ name, category, onDelete }) => {
   const [isPressed, setIsPressed] = useState(false);
   const [doneText, setDoneText] = useState("");
 
-  const handlePress = () => {
+  const handlePress = async () => {
     const currentDate = format(new Date(), "PP", { locale: fr });
     setDoneText(`Réalisé le ${currentDate}`);
     setIsPressed(!isPressed);
+
+
+    try {
+      await AsyncStorage.setItem(`activity_${name}_isPressed`, JSON.stringify(!isPressed));
+      await AsyncStorage.setItem(`activity_${name}_doneText`, JSON.stringify(doneText));
+    } catch (error) {
+      console.error("Error saving to AsyncStorage:", error);
+    }
   };
+
+  useEffect(() => {
+    const loadActivityState = async () => {
+      try {
+        const storedIsPressed = await AsyncStorage.getItem(`activity_${name}_isPressed`);
+        if (storedIsPressed !== null) {
+          setIsPressed(JSON.parse(storedIsPressed));
+        }
+
+        const storedDoneText = await AsyncStorage.getItem(`activity_${name}_doneText`);
+        if (storedDoneText !== null) {
+          setDoneText(JSON.parse(storedDoneText));
+        }
+      } catch (error) {
+        console.error("Error loading from AsyncStorage:", error);
+      }
+    };
+
+    loadActivityState();
+  }, []);
+
   return (
     <TouchableOpacity
       style={[styles.container, isPressed ? styles.containerPressed : null]}
