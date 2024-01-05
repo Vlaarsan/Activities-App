@@ -14,7 +14,6 @@ export default function NewActivityForm({ onSave, onClose }) {
   const [activityCategory, setActivityCategory] = useState(categories[0]); // Initialiser avec la première catégorie
 
   const handleSave = () => {
-    console.log("Selected Category:", activityCategory);
     if (activityName.trim() === "") {
       alert("Veuillez saisir le nom de l'activité.");
       return;
