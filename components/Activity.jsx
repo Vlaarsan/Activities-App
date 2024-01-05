@@ -64,10 +64,10 @@ const styles = StyleSheet.create({
     backgroundColor: "black",
     padding: 25,
     margin: 15,
-    borderWidth: 4,
-    borderColor: "skyblue",
+    borderWidth: 2,
+    borderColor: "blue",
     alignSelf: "center",
-    borderStyle: "dotted",
+    borderStyle: "dashed",
     shadowColor: "#000",
     shadowOffset: {
       width: 0,
@@ -78,6 +78,13 @@ const styles = StyleSheet.create({
     elevation: 8,
   },
   
+  containerPressed: {
+    flex: 1,
+    backgroundColor: "skyblue",
+    borderWidth: 1,
+    borderColor: "black",
+    borderStyle:"solid"
+  },
   text: {
     fontWeight: "bold",
     fontSize: 17, 
@@ -91,13 +98,6 @@ const styles = StyleSheet.create({
     marginBottom: 5,
     color: "white",
     textAlign: "center",
-  },
-  containerPressed: {
-    flex: 1,
-    backgroundColor: "skyblue",
-    borderWidth: 2,
-    borderColor: "black",
-    borderStyle:"solid"
   },
 });
 

@@ -10,6 +10,7 @@ import {
 } from "react-native";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import { Picker } from "@react-native-picker/picker";
+import { LinearGradient } from "expo-linear-gradient";
 import Activity from "../components/Activity";
 import NewActivityForm from "../forms/NewActivityForm";
 import {
@@ -18,7 +19,6 @@ import {
   filterActivitiesByName,
 } from "../fonctions/HandleActivities";
 import categories from "../others/CategoryList";
-
 
 const ActivitiesScreen = () => {
   const [activities, setActivities] = useState([]);
@@ -65,72 +65,76 @@ const ActivitiesScreen = () => {
   };
 
   return (
-    <View style={styles.mainContainer}>
-      <Text style={styles.title}>MES ACTIVITÉS</Text>
-      {/* Ajout de la barre de recherche */}
-      <TextInput
-        placeholder="Rechercher par nom..."
-        style={styles.searchInput}
-        value={searchText}
-        onChangeText={(text) => setSearchText(text)}
-      />
-      {/* Ajout du sélecteur de catégorie */}
-      <Picker
-        selectedValue={selectedCategory}
-        onValueChange={(itemValue) => setSelectedCategory(itemValue)}
-        style={styles.picker}
-        dropdownIconColor={"skyblue"}
-      >
-        {/* Ajoutez les options du Picker en utilisant le tableau categories */}
-        <Picker.Item label="Filtrer par catégorie..." value="Toutes" />
-        {categories.map((category, index) => (
-          <Picker.Item key={index} label={category} value={category} />
-        ))}
-      </Picker>
-      <ScrollView contentContainerStyle={styles.container}>
-        {filterActivitiesByName(activities, searchText)
-          .filter((activity) =>
-            selectedCategory === "Toutes"
-              ? true
-              : activity.category === selectedCategory
-          )
-          .map((activity, index) => (
-            <View key={index} style={styles.activityContainer}>
-              <Activity
-                name={activity.name}
-                category={activity.category}
-                onDelete={() => handleDeleteActivity(activity.name)}
-              />
-            </View>
-          ))}
-        <Modal
-          animationType="slide"
-          transparent={true}
-          visible={isModalVisible}
-          onRequestClose={() => setModalVisible(false)}
+    <LinearGradient
+      colors={["#3498db", "#1abc9c"]}
+      style={styles.mainContainer}
+    >
+      <View style={styles.mainContainer}>
+        <Text style={styles.title}>MES ACTIVITÉS</Text>
+        {/* Ajout de la barre de recherche */}
+        <TextInput
+          placeholder="Rechercher par nom..."
+          style={styles.searchInput}
+          value={searchText}
+          onChangeText={(text) => setSearchText(text)}
+        />
+        {/* Ajout du sélecteur de catégorie */}
+        <Picker
+          selectedValue={selectedCategory}
+          onValueChange={(itemValue) => setSelectedCategory(itemValue)}
+          style={styles.picker}
+          dropdownIconColor={"skyblue"}
         >
-          <NewActivityForm
-            onSave={handleCreateActivity}
-            onClose={() => setModalVisible(false)}
-          />
-        </Modal>
-      </ScrollView>
-      <TouchableOpacity
-        onPress={() => setModalVisible(true)}
-        style={styles.addButtonContainer}
-      >
-        <View style={styles.addButton}>
-          <Text style={styles.textPlus}>+</Text>
-        </View>
-      </TouchableOpacity>
-    </View>
+          {/* Ajoutez les options du Picker en utilisant le tableau categories */}
+          <Picker.Item label="Filtrer par catégorie..." value="Toutes" />
+          {categories.map((category, index) => (
+            <Picker.Item key={index} label={category} value={category} />
+          ))}
+        </Picker>
+        <ScrollView contentContainerStyle={styles.container}>
+          {filterActivitiesByName(activities, searchText)
+            .filter((activity) =>
+              selectedCategory === "Toutes"
+                ? true
+                : activity.category === selectedCategory
+            )
+            .map((activity, index) => (
+              <View key={index} style={styles.activityContainer}>
+                <Activity
+                  name={activity.name}
+                  category={activity.category}
+                  onDelete={() => handleDeleteActivity(activity.name)}
+                />
+              </View>
+            ))}
+          <Modal
+            animationType="slide"
+            transparent={true}
+            visible={isModalVisible}
+            onRequestClose={() => setModalVisible(false)}
+          >
+            <NewActivityForm
+              onSave={handleCreateActivity}
+              onClose={() => setModalVisible(false)}
+            />
+          </Modal>
+        </ScrollView>
+        <TouchableOpacity
+          onPress={() => setModalVisible(true)}
+          style={styles.addButtonContainer}
+        >
+          <View style={styles.addButton}>
+            <Text style={styles.textPlus}>+</Text>
+          </View>
+        </TouchableOpacity>
+      </View>
+    </LinearGradient>
   );
 };
 
 const styles = StyleSheet.create({
   mainContainer: {
     flex: 1,
-    backgroundColor: "#666",
   },
   title: {
     alignSelf: "center",
