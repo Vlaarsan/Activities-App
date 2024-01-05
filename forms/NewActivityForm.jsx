@@ -6,11 +6,15 @@ import {
   TouchableOpacity,
   StyleSheet,
 } from "react-native";
+import { Picker } from "@react-native-picker/picker";
+import categories from "../others/CategoryList";
 
 export default function NewActivityForm({ onSave, onClose }) {
   const [activityName, setActivityName] = useState("");
+  const [activityCategory, setActivityCategory] = useState(categories[0]); // Initialiser avec la première catégorie
 
   const handleSave = () => {
+    console.log("Selected Category:", activityCategory);
     if (activityName.trim() === "") {
       alert("Veuillez saisir le nom de l'activité.");
       return;
@@ -18,10 +22,10 @@ export default function NewActivityForm({ onSave, onClose }) {
 
     onSave({
       name: activityName,
+      category: activityCategory,
     });
 
     setActivityName("");
-
     onClose();
   };
 
@@ -33,6 +37,15 @@ export default function NewActivityForm({ onSave, onClose }) {
         onChangeText={setActivityName}
         style={styles.input}
       />
+      <Picker
+        selectedValue={activityCategory}
+        onValueChange={(itemValue) => setActivityCategory(itemValue)}
+        style={styles.picker}
+      >
+        {categories.map((category, index) => (
+          <Picker.Item key={index} label={category} value={category} />
+        ))}
+      </Picker>
       <TouchableOpacity onPress={handleSave} style={styles.button}>
         <Text>Enregistrer</Text>
       </TouchableOpacity>
@@ -64,4 +77,17 @@ const styles = StyleSheet.create({
     borderRadius: 5,
     margin: 10,
   },
+  picker: {
+    height: 40,
+    width: "100%",
+    borderColor: "#555",  
+    borderWidth: 2,      
+    borderRadius: 8,     
+    color: "#333",      
+    marginBottom: 10,
+    backgroundColor: "#fff",  // Couleur de fond
+  },
+  
+
+  
 });

@@ -1,10 +1,15 @@
 import React, { useState } from "react";
 import { StyleSheet, Text, TouchableOpacity } from "react-native";
+import { format } from "date-fns";
+import { fr } from "date-fns/locale";
 
-const Activity = ({ name, description, category, onDelete }) => {
+const Activity = ({ name, category, onDelete }) => {
   const [isPressed, setIsPressed] = useState(false);
+  const [doneText, setDoneText] = useState("");
 
   const handlePress = () => {
+    const currentDate = format(new Date(), "PP", { locale: fr });
+    setDoneText(`Réalisé le ${currentDate}`);
     setIsPressed(!isPressed);
   };
   return (
@@ -14,6 +19,9 @@ const Activity = ({ name, description, category, onDelete }) => {
       onPress={handlePress}
     >
       <Text style={styles.text}>{name}</Text>
+      {isPressed && (
+        <Text style={styles.doneText}>{doneText}</Text>
+      )}
     </TouchableOpacity>
   );
 };
@@ -31,7 +39,15 @@ const styles = StyleSheet.create({
     borderColor: "skyblue",
   },
   text: {
+    fontWeight: "bold",
     fontSize: 17, 
+    marginBottom: 5,
+    color: "white",
+    textAlign: "center",
+  },
+  doneText: {
+    fontStyle: "italic",
+    fontSize: 14, 
     marginBottom: 5,
     color: "white",
     textAlign: "center",

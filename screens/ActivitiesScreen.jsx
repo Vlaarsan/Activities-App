@@ -10,8 +10,8 @@ import {
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import Activity from "../components/Activity";
 import NewActivityForm from "../forms/NewActivityForm";
-import { createActivity } from "../Fonctions/HandleActivities";
-import { deleteActivity } from "../Fonctions/HandleActivities";
+import { createActivity } from "../fonctions/HandleActivities";
+import { deleteActivity } from "../fonctions/HandleActivities";
 
 const ActivitiesScreen = () => {
   ///////////////////////////////////////////////////////////////////////////////////////////////
@@ -56,10 +56,11 @@ const ActivitiesScreen = () => {
   ///////////////////////////////////////////////////////////////////////////////////////////////
 
   const handleCreateActivity = (formData) => {
-    const newActivity = createActivity(formData.name, formData.description);
+    const newActivity = createActivity(formData.name, formData.category);
     setActivities((prevActivities) => [...prevActivities, newActivity]);
     setModalVisible(false);
   };
+  
 
   const handleDeleteActivity = (name) => {
     // Utiliser la fonction deleteActivity pour mettre à jour la liste d'activités
@@ -81,7 +82,7 @@ const ActivitiesScreen = () => {
           <View key={index} style={styles.activityContainer}>
             <Activity
               name={activity.name}
-              description={activity.description}
+              category={activity.category}
               onDelete={() => handleDeleteActivity(activity.name)}
             />
           </View>

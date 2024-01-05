@@ -1,7 +1,7 @@
-export const createActivity = (name, description) => {
+export const createActivity = (name, category) => {
   return {
     name,
-    description,
+    category,
   };
 };
 
