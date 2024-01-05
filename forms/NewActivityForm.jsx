@@ -5,9 +5,12 @@ import {
   TextInput,
   TouchableOpacity,
   StyleSheet,
+  TouchableWithoutFeedback,
+  Keyboard,
 } from "react-native";
 import { Picker } from "@react-native-picker/picker";
 import categories from "../others/CategoryList";
+import { LinearGradient } from "expo-linear-gradient";
 
 export default function NewActivityForm({ onSave, onClose }) {
   const [activityName, setActivityName] = useState("");
@@ -29,64 +32,86 @@ export default function NewActivityForm({ onSave, onClose }) {
   };
 
   return (
-    <View style={styles.container}>
-      <TextInput
-        placeholder="Nom de l'activité"
-        value={activityName}
-        onChangeText={setActivityName}
-        style={styles.input}
-      />
-      <Picker
-        selectedValue={activityCategory}
-        onValueChange={(itemValue) => setActivityCategory(itemValue)}
-        style={styles.picker}
-      >
-        {categories.map((category, index) => (
-          <Picker.Item key={index} label={category} value={category} />
-        ))}
-      </Picker>
-      <TouchableOpacity onPress={handleSave} style={styles.button}>
-        <Text>Enregistrer</Text>
-      </TouchableOpacity>
-      <TouchableOpacity onPress={onClose} style={styles.button}>
-        <Text>Annuler</Text>
-      </TouchableOpacity>
-    </View>
+    <LinearGradient colors={["#3498db", "#1abc9c"]} style={styles.container}>
+      <TouchableWithoutFeedback onPress={Keyboard.dismiss}>
+        <View style={styles.container}>
+          <Text style={styles.title}> Créer une nouvelle activité</Text>
+          <TextInput
+            placeholder="Nom de l'activité"
+            value={activityName}
+            onChangeText={setActivityName}
+            style={styles.input}
+          />
+          <Picker
+            selectedValue={activityCategory}
+            onValueChange={(itemValue) => setActivityCategory(itemValue)}
+            style={styles.picker}
+            dropdownIconColor={"black"}
+          >
+            {categories.map((category, index) => (
+              <Picker.Item
+                key={index}
+                label={category}
+                value={category}
+                style={styles.pickerItems}
+              />
+            ))}
+          </Picker>
+          <TouchableOpacity onPress={handleSave} style={styles.button}>
+            <Text>Enregistrer</Text>
+          </TouchableOpacity>
+          <TouchableOpacity onPress={onClose} style={styles.button}>
+            <Text>Annuler</Text>
+          </TouchableOpacity>
+        </View>
+      </TouchableWithoutFeedback>
+    </LinearGradient>
   );
 }
 
 const styles = StyleSheet.create({
   container: {
-    padding: 20,
-    backgroundColor: "#fff",
-    position: "relative",
-    top: "25%",
+    flex: 1,
+    padding: 15,
+  },
+  title: {
+    fontSize: 25,
+    fontWeight: 'bold',
+    marginBottom: 120,
+    textAlign: "center",
   },
   input: {
+    width: "100%",
     height: 40,
-    borderColor: "black",
-    borderWidth: 1,
-    marginBottom: 10,
-    padding: 8,
+    borderColor: "skyblue",
+    borderWidth: 2,
+    borderRadius: 5,
+    marginBottom: 30,
+    paddingHorizontal: 10,
+    backgroundColor: "white",
+    alignSelf: "center",
+    textAlign: "center",
   },
   button: {
-    backgroundColor: "lightblue",
-    padding: 10,
+    backgroundColor: "skyblue",
+    padding: 15,
     alignItems: "center",
     borderRadius: 5,
-    margin: 10,
+    marginVertical: 20,
+  },
+  buttonText: {
+    color: "white",
+    fontWeight: "bold",
   },
   picker: {
-    height: 40,
-    width: "100%",
-    borderColor: "#555",  
-    borderWidth: 2,      
-    borderRadius: 8,     
-    color: "#333",      
-    marginBottom: 10,
-    backgroundColor: "#fff",  // Couleur de fond
+    alignSelf: "center",
+    width: 250,
+    marginBottom: 50,
+    backgroundColor: "skyblue",
   },
-  
-
-  
+  pickerItems: {
+    backgroundColor: "skyblue",
+    borderWidth: 1,
+    borderColor: "black",
+  },
 });

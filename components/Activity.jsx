@@ -86,9 +86,9 @@ const styles = StyleSheet.create({
     padding: 25,
     margin: 15,
     borderWidth: 2,
-    borderColor: "blue",
+    borderColor: "skyblue",
     alignSelf: "center",
-    borderStyle: "dashed",
+    borderStyle: "solid",
     shadowColor: "#000",
     shadowOffset: {
       width: 0,
