@@ -3,6 +3,7 @@ import { StyleSheet, Text, TouchableOpacity } from "react-native";
 import { format } from "date-fns";
 import { fr } from "date-fns/locale";
 
+
 const Activity = ({ name, category, onDelete }) => {
   const [isPressed, setIsPressed] = useState(false);
   const [doneText, setDoneText] = useState("");
