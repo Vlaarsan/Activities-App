@@ -30,15 +30,25 @@ const Activity = ({ name, category, onDelete }) => {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    maxWidth: 200,
-    maxHeight: 200,
-    backgroundColor: "black", 
-    padding: 15,
+    width: 170,
+    height: 100,
+    backgroundColor: "black",
+    padding: 25,
     margin: 15,
-    alignContent: "center",
-    borderWidth: 2,
+    borderWidth: 4,
     borderColor: "skyblue",
+    alignSelf: "center",
+    borderStyle: "dotted",
+    shadowColor: "#000",
+    shadowOffset: {
+      width: 0,
+      height: 4,
+    },
+    shadowOpacity: 0.3,
+    shadowRadius: 4.65,
+    elevation: 8,
   },
+  
   text: {
     fontWeight: "bold",
     fontSize: 17, 
@@ -48,7 +58,7 @@ const styles = StyleSheet.create({
   },
   doneText: {
     fontStyle: "italic",
-    fontSize: 14, 
+    fontSize: 12, 
     marginBottom: 5,
     color: "white",
     textAlign: "center",
@@ -58,6 +68,7 @@ const styles = StyleSheet.create({
     backgroundColor: "skyblue",
     borderWidth: 2,
     borderColor: "black",
+    borderStyle:"solid"
   },
 });
 

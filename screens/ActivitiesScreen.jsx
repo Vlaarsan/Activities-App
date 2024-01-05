@@ -6,23 +6,25 @@ import {
   ScrollView,
   TouchableOpacity,
   Modal,
+  TextInput,
 } from "react-native";
 import AsyncStorage from "@react-native-async-storage/async-storage";
+import { Picker } from "@react-native-picker/picker";
 import Activity from "../components/Activity";
 import NewActivityForm from "../forms/NewActivityForm";
-import { createActivity } from "../fonctions/HandleActivities";
-import { deleteActivity } from "../fonctions/HandleActivities";
+import {
+  createActivity,
+  deleteActivity,
+  filterActivitiesByName,
+} from "../fonctions/HandleActivities";
+import categories from "../others/CategoryList";
+
 
 const ActivitiesScreen = () => {
-  ///////////////////////////////////////////////////////////////////////////////////////////////
-  //                                           @VARIABLES
-  ///////////////////////////////////////////////////////////////////////////////////////////////
   const [activities, setActivities] = useState([]);
   const [isModalVisible, setModalVisible] = useState(false);
-
-  ///////////////////////////////////////////////////////////////////////////////////////////////
-  //                                           @USE EFFECT
-  ///////////////////////////////////////////////////////////////////////////////////////////////
+  const [searchText, setSearchText] = useState(""); // Nouvel état pour le texte de recherche
+  const [selectedCategory, setSelectedCategory] = useState("Toute");
 
   useEffect(() => {
     const loadActivities = async () => {
@@ -35,7 +37,7 @@ const ActivitiesScreen = () => {
         console.error("Error loading activities from AsyncStorage:", error);
       }
     };
-
+    setSelectedCategory("Toutes");
     loadActivities();
   }, []);
 
@@ -51,44 +53,56 @@ const ActivitiesScreen = () => {
     saveActivities();
   }, [activities]);
 
-  ///////////////////////////////////////////////////////////////////////////////////////////////
-  //                                           @FONCTIONS
-  ///////////////////////////////////////////////////////////////////////////////////////////////
-
   const handleCreateActivity = (formData) => {
     const newActivity = createActivity(formData.name, formData.category);
     setActivities((prevActivities) => [...prevActivities, newActivity]);
     setModalVisible(false);
   };
-  
 
   const handleDeleteActivity = (name) => {
-    // Utiliser la fonction deleteActivity pour mettre à jour la liste d'activités
     const updatedActivities = deleteActivity(activities, name);
     setActivities(updatedActivities);
   };
 
-  ///////////////////////////////////////////////////////////////////////////////////////////////
-  //                                           @AFFICHAGE
-  ///////////////////////////////////////////////////////////////////////////////////////////////
-
   return (
     <View style={styles.mainContainer}>
-      <ScrollView
-        contentContainerStyle={styles.container}
-        style={{ backgroundColor: "lightgreen" }}
+      <Text style={styles.title}>MES ACTIVITÉS</Text>
+      {/* Ajout de la barre de recherche */}
+      <TextInput
+        placeholder="Rechercher par nom..."
+        style={styles.searchInput}
+        value={searchText}
+        onChangeText={(text) => setSearchText(text)}
+      />
+      {/* Ajout du sélecteur de catégorie */}
+      <Picker
+        selectedValue={selectedCategory}
+        onValueChange={(itemValue) => setSelectedCategory(itemValue)}
+        style={styles.picker}
+        dropdownIconColor={"skyblue"}
       >
-        {activities.map((activity, index) => (
-          <View key={index} style={styles.activityContainer}>
-            <Activity
-              name={activity.name}
-              category={activity.category}
-              onDelete={() => handleDeleteActivity(activity.name)}
-            />
-          </View>
+        {/* Ajoutez les options du Picker en utilisant le tableau categories */}
+        <Picker.Item label="Filtrer par catégorie..." value="Toutes" />
+        {categories.map((category, index) => (
+          <Picker.Item key={index} label={category} value={category} />
         ))}
-
-        {/* Modal pour le formulaire */}
+      </Picker>
+      <ScrollView contentContainerStyle={styles.container}>
+        {filterActivitiesByName(activities, searchText)
+          .filter((activity) =>
+            selectedCategory === "Toutes"
+              ? true
+              : activity.category === selectedCategory
+          )
+          .map((activity, index) => (
+            <View key={index} style={styles.activityContainer}>
+              <Activity
+                name={activity.name}
+                category={activity.category}
+                onDelete={() => handleDeleteActivity(activity.name)}
+              />
+            </View>
+          ))}
         <Modal
           animationType="slide"
           transparent={true}
@@ -106,26 +120,35 @@ const ActivitiesScreen = () => {
         style={styles.addButtonContainer}
       >
         <View style={styles.addButton}>
-          <Text>+</Text>
+          <Text style={styles.textPlus}>+</Text>
         </View>
       </TouchableOpacity>
     </View>
   );
 };
 
-export default ActivitiesScreen;
-
 const styles = StyleSheet.create({
   mainContainer: {
     flex: 1,
-    backgroundColor: "lightgreen",
+    backgroundColor: "#666",
+  },
+  title: {
+    alignSelf: "center",
+    width: "90%",
+    textAlign: "center",
+    marginTop: 70,
+    fontSize: 28,
+    backgroundColor: "skyblue",
+    borderRadius: 25,
+    borderWidth: 1,
+    paddingVertical: 5,
   },
   container: {
     flexDirection: "row",
     flexWrap: "wrap",
     justifyContent: "space-between",
-    paddingTop: 50,
-    paddingHorizontal: 10,
+    paddingTop: 20,
+    paddingHorizontal: 15,
   },
   activityContainer: {
     width: "48%",
@@ -139,7 +162,30 @@ const styles = StyleSheet.create({
   },
   addButton: {
     backgroundColor: "skyblue",
-    padding: 15,
-    borderRadius: 15,
+    paddingHorizontal: 15,
+    paddingVertical: 5,
+    borderRadius: 25,
+  },
+  textPlus: {
+    textAlign: "center",
+    fontSize: 28,
+  },
+  searchInput: {
+    alignSelf: "center",
+    width: "50%",
+    backgroundColor: "#fff",
+    padding: 2,
+    marginTop: 30,
+    borderRadius: 10,
+    textAlign: "center",
+  },
+  picker: {
+    width: 230,
+    marginTop: 10,
+    marginLeft: "25%",
+    marginRight: "25%",
+    height: 40,
   },
 });
+
+export default ActivitiesScreen;

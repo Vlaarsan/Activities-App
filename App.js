@@ -25,7 +25,7 @@ export default function App() {
               iconName = "settings";
             }
 
-            return <Ionicons name={iconName} size={27} color={color} />;
+            return <Ionicons name={iconName} size={25} color={color} />;
           },
         })}
       >
