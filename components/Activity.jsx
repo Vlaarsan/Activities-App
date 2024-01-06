@@ -11,7 +11,7 @@ const Activity = ({ name, category, onDelete }) => {
 
   const handlePress = async () => {
     const currentDate = format(new Date(), "PP", { locale: fr });
-    setDoneText(`Réalisé le ${currentDate}`);
+    setDoneText(`Réalisée le ${currentDate}`);
     setIsPressed(!isPressed);
 
     try {
@@ -115,7 +115,7 @@ const styles = StyleSheet.create({
   },
   doneText: {
     fontStyle: "italic",
-    fontSize: 12,
+    fontSize: 11,
     marginBottom: 5,
     color: "white",
     textAlign: "center",
